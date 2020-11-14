@@ -1,4 +1,5 @@
 .App {
+  font-size: calc(10px + 2vmin);
   text-align: center;
 }
 
@@ -35,4 +36,54 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.page {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-container {
+  width: 70vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.details-container {
+  height: 100vh;
+  width: 65vw;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.detail-actions {
+  margin-top: calc(10px + 2vw);
+  margin-bottom: calc(10px + 2vw);
+}
+
+.details-grid {
+  min-width: 35vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.details-cell {
+  white-space: pre-wrap;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  margin-left: calc(5px + 5vw);
+  margin-right: calc(5px + 5vw);
+}
+
+.list-container {
+  height: 100vh;
+  min-width: 35vw;
+  flex-grow: 1;
+  overflow: auto;
 }
