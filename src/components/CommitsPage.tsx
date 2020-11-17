@@ -8,6 +8,7 @@ import LoadingView from './LoadingView';
 import { Commit } from '../util';
 
 const COMMIT_DISPLAY_ITEMS: Array<DisplayItem> = [
+  { label:'Commit', path: 'sha' },
   { label:'Author', path: 'author.login' },
   { label:'Message', path: 'commit.message' },
 ];

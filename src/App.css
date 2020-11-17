@@ -30,7 +30,7 @@
 .details-grid {
   min-width: 35vw;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 2fr;
 }
 
 .details-cell {
