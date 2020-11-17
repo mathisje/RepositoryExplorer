@@ -1,70 +1,31 @@
-# Getting Started with Create React App
+# Repository Explorer Web Application
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+To run the project locally, download the code from GitHub, and in the `repository-explorer` directory run `yarn install`
+ and `yarn start`. Use the command `yarn test` to run tests.
 
-In the project directory, you can run:
+This is a simple web app to pull a list of repos for the Netflix organization from the GitHub API, sort them by open
+ issues, and provide a link to explore the commits for the repo.
 
-### `yarn start`
+One of the most important decisions I have to make is about how to handle pagination. Sorting by open issues is
+ not supported at the API layer, according to the documentation. Therefore, I concluded that I need to fetch all of
+ the repositories from the paginated API up front, and then sort them on the client. This should be ok for something
+ like repositories where even a large organization like Netflix only has two pages of data at 100 results per page.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+For the commits page, the situation is different. I assumed that very large result sets were possible (imagine
+ something like the Google monorepo), and there is no requirement for client-side sorting. I initially thought that an
+ infinite scrolling list that fetches paginated data on the fly would create the best user experience, and prevent
+ trying to fetch too much data. However, after getting into the development process, I realized that I could reuse my
+ hook for getting data from the repo page, and that the infinite scrolling list did not justify its development cost for
+ this project. This implementation has worked for my use case, but it's one of the first issues I would want to address
+ if I were to continue work on this project.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The code quality is backed up with static analysis from typescript and a relatively simple test suite. There are unit
+ tests for the most interesting display logic in the app, which is the component that converts generic entities from the
+ API to the appropriate display format. There are also unit tests for the custom comparison function that is used to
+ sort the repos returned from the API. In a larger and more complex application, I would want to isolate my business
+ logic away from the display code and into pure functions backed by unit tests. The most complex code in the app is the
+ code in the custom hook that fetches paginated data continuously until it is all loaded, and this code is untested,
+ which is not ideal. This is another pain point that I would address right away if I were to continue working on this
+ project.
